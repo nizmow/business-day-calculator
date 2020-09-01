@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BusinessDaysBetween.Business.ValueObjects;
 
 namespace BusinessDaysBetween.Business.Services
 {
@@ -7,8 +9,11 @@ namespace BusinessDaysBetween.Business.Services
     /// </summary>
     public class BusinessDayCalculatorService : IBusinessDayCalculatorService
     {
-        public int CalculateBusinessDaysBetween(DateTime startDate, DateTime endDate)
+        public int CalculateBusinessDaysBetween(DateTime startDate, DateTime endDate, IEnumerable<Holiday> holidays = null)
         {
+            // initialise optional values so we don't have to worry -- I'd prefer not to use nulls but that's another story
+            holidays ??= new List<Holiday>();
+            
             // graciously deal with some edge cases
             if (startDate > endDate || startDate == endDate)
             {
@@ -35,6 +40,37 @@ namespace BusinessDaysBetween.Business.Services
             // todo: performance optimisation -- divide out number of full weeks
 
             return numberOfBusinessDays;
+        }
+
+        public DateTime GetHolidayDateForYear(Holiday holiday, int year)
+        {
+            if (holiday.Type == HolidayType.Fixed)
+            {
+                return new DateTime(year, holiday.Date.Month, holiday.Date.Day);
+            }
+
+            if (holiday.Type == HolidayType.RollsToMonday)
+            {
+                var workingDateTime = new DateTime(year, holiday.Date.Month, holiday.Date.Day);
+                if (!IsWeekend(workingDateTime))
+                {
+                    return workingDateTime;
+                }
+
+                // get days until Monday -- add 7 then mod 7 so we fix the enum wrapping
+                // this seems like a bit of a hack because we assume things about the enumeration values, but for now
+                // we can rely on the framework DayOfWeek enum?
+                var daysUntilMonday = ((int) DayOfWeek.Monday - (int) workingDateTime.DayOfWeek + 7) % 7;
+
+                return workingDateTime.AddDays(daysUntilMonday);
+            }
+
+            if (holiday.Type == HolidayType.ParticularDayOfMonth)
+            {
+                throw new NotImplementedException("Fix me later");
+            }
+            
+            throw new NotImplementedException("Unhandled HolidayType enumeration value!");
         }
 
         private bool IsWeekend(DateTime dateToTest) => dateToTest.DayOfWeek == DayOfWeek.Saturday || dateToTest.DayOfWeek == DayOfWeek.Sunday;

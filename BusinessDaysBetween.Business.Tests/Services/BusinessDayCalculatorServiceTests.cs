@@ -1,5 +1,7 @@
-﻿using BusinessDaysBetween.Business.Services;
+﻿using System;
+using BusinessDaysBetween.Business.Services;
 using BusinessDaysBetween.Business.Tests.TestHelpers;
+using BusinessDaysBetween.Business.ValueObjects;
 using Xunit;
 
 namespace BusinessDaysBetween.Business.Tests.Services
@@ -22,6 +24,43 @@ namespace BusinessDaysBetween.Business.Tests.Services
             var result = sut.CalculateBusinessDaysBetween(startDate, endDate);
             
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeFixed()
+        {
+            // arrange
+            var holiday = new Holiday
+            {
+                Type = HolidayType.Fixed,
+                Date = new DateTime(1900, 5, 5)
+            };
+            var sut = new BusinessDayCalculatorService();
+            
+            // act
+            var result = sut.GetHolidayDateForYear(holiday, 2020);
+            
+            // assert
+            Assert.Equal(new DateTime(2020, 5, 5), result);
+        }
+
+        [Fact]
+        public void GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeRollsToMonday()
+        {
+            
+            // arrange
+            var holiday = new Holiday
+            {
+                Type = HolidayType.RollsToMonday,
+                Date = new DateTime(2019, 3, 22) // this is a Sunday in 2020!
+            };
+            var sut = new BusinessDayCalculatorService();
+            
+            // act
+            var result = sut.GetHolidayDateForYear(holiday, 2020);
+            
+            // assert
+            Assert.Equal(new DateTime(2020, 3, 23), result);
         }
     }
 }

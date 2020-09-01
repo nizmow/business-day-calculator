@@ -1,6 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6e9d4380_002Dd87e_002D4c2b_002Db4d6_002Ddef588f4c287/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CalculateBusinessDaysBetween_ReturnsExpected" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Services.BusinessDaysBetweenServiceTests.CalculateBusinessDaysBetween_ReturnsExpected&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Services.BusinessDayCalculatorServiceTests.GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeFixed&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Services.BusinessDayCalculatorServiceTests.GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeRollsToMonday&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
