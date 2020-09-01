@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BusinessDaysBetween.Business.ValueObjects;
 
 namespace BusinessDaysBetween.Business.Services
@@ -36,6 +37,17 @@ namespace BusinessDaysBetween.Business.Services
                 numberOfBusinessDays++;
             }
             
+            // remove any holidays detected!
+            for (var year = startDate.Year; year <= endDate.Year; year++)
+            {
+                var weekdayHolidays = holidays.Select(h => GetHolidayDateForYear(h, year)).Where(d => !IsWeekend(d));
+                
+                // check how many of the holidays overlap our date range
+                var numberOfOverlappingHolidays = weekdayHolidays.Count(w => IsBetween(w, startDate, endDate));
+                
+                // adjust result accordingly
+                numberOfBusinessDays -= numberOfOverlappingHolidays;
+            }
             
             // todo: performance optimisation -- divide out number of full weeks
 
@@ -74,5 +86,8 @@ namespace BusinessDaysBetween.Business.Services
         }
 
         private bool IsWeekend(DateTime dateToTest) => dateToTest.DayOfWeek == DayOfWeek.Saturday || dateToTest.DayOfWeek == DayOfWeek.Sunday;
+
+        private bool IsBetween(DateTime candidateDate, DateTime startDate, DateTime endDate) =>
+            candidateDate >= startDate && candidateDate <= endDate;
     }
 }
