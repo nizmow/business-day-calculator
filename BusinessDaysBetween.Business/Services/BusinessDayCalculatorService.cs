@@ -5,7 +5,7 @@ namespace BusinessDaysBetween.Business.Services
     /// <summary>
     /// A stateless "service class" that calculates the business days between two dates
     /// </summary>
-    public class BusinessDayCalculatorService
+    public class BusinessDayCalculatorService : IBusinessDayCalculatorService
     {
         public int CalculateBusinessDaysBetween(DateTime startDate, DateTime endDate)
         {
@@ -30,6 +30,9 @@ namespace BusinessDaysBetween.Business.Services
 
                 numberOfBusinessDays++;
             }
+            
+            
+            // todo: performance optimisation -- divide out number of full weeks
 
             return numberOfBusinessDays;
         }

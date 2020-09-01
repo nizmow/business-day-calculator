@@ -1,3 +1,6 @@
+using BusinessDaysBetween.Business.Commands;
+using BusinessDaysBetween.Business.Services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +23,14 @@ namespace BusinessDaysBetween.Api
         {
             services.AddControllers();
 
+            // mediatr is probably overkill here, but I like the separation between API and business logic that it 
+            // gives us, and avoids unnecessary DI mess into our controllers, less coupling
+            services.AddMediatR(typeof(CalculateBusinessDayCommand));
+
             services.AddSwaggerGen();
+            
+            // add business logic classes, boilerplate could be isolated in a bigger project for testing?
+            services.AddSingleton<IBusinessDayCalculatorService, BusinessDayCalculatorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
