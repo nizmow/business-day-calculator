@@ -33,7 +33,7 @@ If things start getting bigger, this could be split into multiple projects.
 
 * As usual, working extensively with dates in .NET made me sad about .NET's time libraries. For this in production, or anything larger, I'd install Nodatime.
 * I've conveniently ignored timezones, this may cause (very) subtle bugs.
-* In the calculation, I'm not sure my idea of adjusting start and end dates so I can do inclusive maths was the best, because it requires too much nudging later But I don't want this project to take all month, and the tests pass, so for now it'll do...
+* In the calculation, I'm not sure my idea of adjusting start and end dates so I can do inclusive maths was the best, because it requires too much nudging later. But I don't want this project to take all month, and the tests pass, so for now it'll do...
 
 ## TODO
 
