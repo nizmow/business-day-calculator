@@ -1,0 +1,16 @@
+﻿[
+  {
+    "type": "Fixed",
+    "date": "2020-3-15"
+  },
+  {
+    "type": "RollsToMonday",
+    "date": "2020-1-29"
+  },
+  {
+    "type": "ParticularDayOfMonth",
+    "monthOfYear": "May",
+    "dayOfMonth": "Tuesday",
+    "occurenceInMonth": 2
+  }
+]

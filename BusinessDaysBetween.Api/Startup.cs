@@ -1,4 +1,6 @@
+using System.IO.Abstractions;
 using BusinessDaysBetween.Business.Commands;
+using BusinessDaysBetween.Business.Infrastructure;
 using BusinessDaysBetween.Business.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -29,8 +31,12 @@ namespace BusinessDaysBetween.Api
 
             services.AddSwaggerGen();
             
+            // libraries
+            services.AddTransient<IFileSystem, FileSystem>(); // default constructor uses default filesystem
+            
             // add business logic classes, boilerplate could be isolated in a bigger project for testing?
             services.AddSingleton<IBusinessDayCalculatorService, BusinessDayCalculatorService>();
+            services.AddTransient<IHolidayRepository, HolidayRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,5 +5,6 @@
     &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Services.BusinessDayCalculatorServiceTests.GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeRollsToMonday&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Services.BusinessDayCalculatorServiceTests.CalculateBusinessDaysBetween_ReturnsExpected&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Services.BusinessDayCalculatorServiceTests.CalculateBusinessDaysBetween_ReturnsExpected_WithProvidedHolidays&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::16BFC74F-919A-49BE-8A5B-A3FB33C77F5D::.NETCoreApp,Version=v3.1::BusinessDaysBetween.Business.Tests.Infrastructure.HolidayRepositoryTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

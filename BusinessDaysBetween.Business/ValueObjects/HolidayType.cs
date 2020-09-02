@@ -15,6 +15,9 @@
         /// <summary>
         /// Holiday occurs on a particular day of the month, eg: the second Monday of April
         /// </summary>
+        /// <remarks>
+        /// I'd probably call for an informal naming brainstorm session with the team on this one!
+        /// </remarks>
         ParticularDayOfMonth,
     }
 }
