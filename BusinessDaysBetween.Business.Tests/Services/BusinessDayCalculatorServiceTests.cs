@@ -29,8 +29,9 @@ namespace BusinessDaysBetween.Business.Tests.Services
         }
 
         [Theory]
-        [InlineData("2020-03-20", "2020-03-25", 1)]
+        [InlineData("2020-03-20", "2020-03-25", 1)] // same as above, different result
         [InlineData("2020-03-20", "2020-03-28", 3)]
+        [InlineData("2020-03-16", "2020-03-24", 3)]
         public void CalculateBusinessDaysBetween_ReturnsExpected_WithProvidedHolidays(string startDateRaw, string endDateRaw,
             int expected)
         {
@@ -46,6 +47,13 @@ namespace BusinessDaysBetween.Business.Tests.Services
                 {
                     Type = HolidayType.Fixed,
                     Date = new DateTime(1900, 3, 25)
+                },
+                new Holiday
+                {
+                    Type = HolidayType.ParticularDayOfMonth,
+                    ApplicableDay = DayOfWeek.Wednesday,
+                    ApplicableMonth = MonthOfYear.March,
+                    OccurenceInMonth = 3,
                 }
             };
             var startDate = DateTimeHelpers.Iso8601ToDateTime(startDateRaw);
@@ -60,7 +68,7 @@ namespace BusinessDaysBetween.Business.Tests.Services
         }
 
         [Fact]
-        public void GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeFixed()
+        public void GetHolidayDateForYear_ReturnsExpectedDate_ForHolidayTypeFixed()
         {
             // arrange
             var holiday = new Holiday
@@ -74,11 +82,12 @@ namespace BusinessDaysBetween.Business.Tests.Services
             var result = sut.GetHolidayDateForYear(holiday, 2020);
             
             // assert
-            Assert.Equal(new DateTime(2020, 5, 5), result);
+            Assert.True(result.present);
+            Assert.Equal(new DateTime(2020, 5, 5), result.date);
         }
 
         [Fact]
-        public void GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeRollsToMonday()
+        public void GetHolidayDateForYear_ReturnsExpectedDate_ForHolidayTypeRollsToMonday()
         {
             
             // arrange
@@ -93,13 +102,13 @@ namespace BusinessDaysBetween.Business.Tests.Services
             var result = sut.GetHolidayDateForYear(holiday, 2020);
             
             // assert
-            Assert.Equal(new DateTime(2020, 3, 23), result);
+            Assert.True(result.present);
+            Assert.Equal(new DateTime(2020, 3, 23), result.date);
         }
         
         [Fact]
-        public void GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeParticularDayOfMonth()
+        public void GetHolidayDateForYear_ReturnsExpectedDate_ForHolidayTypeParticularDayOfMonth()
         {
-            
             // arrange
             var holiday = new Holiday
             {
@@ -114,7 +123,48 @@ namespace BusinessDaysBetween.Business.Tests.Services
             var result = sut.GetHolidayDateForYear(holiday, 2020);
             
             // assert
-            Assert.Equal(new DateTime(2020, 9, 8), result);
+            Assert.True(result.present);
+            Assert.Equal(new DateTime(2020, 9, 8), result.date);
+        }
+
+        [Fact]
+        public void GetHolidayDateForYear_ReturnsNotPresent_ForHolidayTypeParticularDayOfMonth_OnYearItDoesntOccur()
+        {
+            // arrange
+            var holiday = new Holiday
+            {
+                Type = HolidayType.ParticularDayOfMonth,
+                ApplicableDay = DayOfWeek.Friday,
+                ApplicableMonth = MonthOfYear.February,
+                OccurenceInMonth = 5,
+            };
+            var sut = new BusinessDayCalculatorService();
+            
+            // act
+            var result = sut.GetHolidayDateForYear(holiday, 2020);
+            
+            // assert
+            Assert.False(result.present);
+        }
+        
+        [Fact]
+        public void GetHolidayDateForYear_ReturnsNotPresent_ForOccurenceOver5()
+        {
+            // arrange
+            var holiday = new Holiday
+            {
+                Type = HolidayType.ParticularDayOfMonth,
+                ApplicableDay = DayOfWeek.Friday,
+                ApplicableMonth = MonthOfYear.January,
+                OccurenceInMonth = 6,
+            };
+            var sut = new BusinessDayCalculatorService();
+            
+            // act
+            var result = sut.GetHolidayDateForYear(holiday, 2020);
+            
+            // assert
+            Assert.False(result.present);
         }
     }
 }
