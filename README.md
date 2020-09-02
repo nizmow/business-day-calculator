@@ -8,9 +8,30 @@ You must have .NET Core 3.1 or higher installed. Load the solution into Visual S
 
 You can edit `holidays.json` to add and remove new public holidays. Restarting the application after changing holidays is not required. I hope that the format of the JSON file is self-explanatory.
 
-## Implementation notes
+## Implementation guide
+
+### BusinessDaysBetween.Api
+
+Basic implementation of a web API for this project. Mediatr is used in the controller because it's a great pattern to keep the API layer thin and reduce coupling.
+
+### BusinessDaysBetween.Business
+
+"Business" logic for the project, split into the following:
+
+* Application/ -- application logic, glue that binds things together. Command handlers in this case.
+* Commands/ -- raw commands invoked to get into the business logic.
+* Infrastructure/ -- dealing with the outside world: files, external APIs, etc.
+* Services/ -- internal computations or things without state.
+* ValueObjects/ -- data bags that don't have identifiers, not promoted to entities.
+* (missing) Entities/ -- there are none!
+
+## Implementation notes & future goals
 
 * As usual, working extensively with dates in .NET made me sad about .NET's time libraries. For this in production, or anything larger, I'd install Nodatime.
-* I've conveniently ignored timezones.
-* I'm not sure my idea of adjusting start and end dates so I can do inclusive maths was the best, because it requires too much nudging later, but I don't want this project to take all month, and the tests pass, so for now it'll do...
+* I've conveniently ignored timezones, this may cause (very) subtle bugs.
+* In the calculation, I'm not sure my idea of adjusting start and end dates so I can do inclusive maths was the best, because it requires too much nudging later But I don't want this project to take all month, and the tests pass, so for now it'll do...
+* The `Holiday` object needs a lot of work -- right now it's hard to validate, we should introduce the builder pattern or similar so that we can't create an impossible object, but it's all deserialised anyway, and it feels like a lot of extra infrastructure for this project.
+* Add validation for things!
+* I'd like to make things immutable, but for now I didn't want to fight with ASP.NET model binding and JSON deserialisation to make it happen in a tidy way.
+* I'd like to add tests for the web API, but the boilerplate would would have sucked all of my time for this project.
 

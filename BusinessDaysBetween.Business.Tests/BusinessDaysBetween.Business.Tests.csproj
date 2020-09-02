@@ -20,6 +20,8 @@
     <ItemGroup>
       <None Remove="TestResources\holidays_working.json" />
       <EmbeddedResource Include="TestResources\holidays_valid.json" />
+      <None Remove="TestResources\holidays_broken.json" />
+      <EmbeddedResource Include="TestResources\holidays_broken.json" />
     </ItemGroup>
 
 </Project>

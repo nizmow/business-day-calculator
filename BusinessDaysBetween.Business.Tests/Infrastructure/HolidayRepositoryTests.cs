@@ -35,5 +35,38 @@ namespace BusinessDaysBetween.Business.Tests.Infrastructure
             
             // for now I'm satisfied, maybe more assertions...
         }
+        
+        
+        [Fact]
+        public async Task LoadHolidays_ReturnsNothing_WithBrokenData()
+        {
+            // arrange
+            var rawJson = ResourceHelpers.ReadEmbeddedResource("BusinessDaysBetween.Business.Tests.TestResources.holidays_broken.json");
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { "holidays.json", new MockFileData(rawJson) },
+            });
+            var sut = new HolidayRepository(fileSystem, NullLogger<HolidayRepository>.Instance);
+
+            // act
+            var result = (await sut.LoadHolidays()).ToList();
+            
+            // assert
+            Assert.Empty(result);
+        }
+        
+        [Fact]
+        public async Task LoadHolidays_ReturnsNothing_WithMissingData()
+        {
+            // arrange
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
+            var sut = new HolidayRepository(fileSystem, NullLogger<HolidayRepository>.Instance);
+
+            // act
+            var result = (await sut.LoadHolidays()).ToList();
+            
+            // assert
+            Assert.Empty(result);
+        }
     }
 }
