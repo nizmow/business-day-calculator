@@ -95,5 +95,26 @@ namespace BusinessDaysBetween.Business.Tests.Services
             // assert
             Assert.Equal(new DateTime(2020, 3, 23), result);
         }
+        
+        [Fact]
+        public void GetHolidayDateForYear_ReturnsExpected_ForHolidayTypeParticularDayOfMonth()
+        {
+            
+            // arrange
+            var holiday = new Holiday
+            {
+                Type = HolidayType.ParticularDayOfMonth,
+                ApplicableDay = DayOfWeek.Tuesday,
+                ApplicableMonth = MonthOfYear.September,
+                OccurenceInMonth = 2,
+            };
+            var sut = new BusinessDayCalculatorService();
+            
+            // act
+            var result = sut.GetHolidayDateForYear(holiday, 2020);
+            
+            // assert
+            Assert.Equal(new DateTime(2020, 9, 8), result);
+        }
     }
 }

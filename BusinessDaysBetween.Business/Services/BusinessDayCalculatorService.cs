@@ -79,7 +79,15 @@ namespace BusinessDaysBetween.Business.Services
 
             if (holiday.Type == HolidayType.ParticularDayOfMonth)
             {
-                throw new NotImplementedException("Fix me later");
+                var startOfMonth = new DateTime(year, (int)holiday.ApplicableMonth + 1, 1);
+                while (startOfMonth.DayOfWeek != holiday.ApplicableDay)
+                {
+                    startOfMonth = startOfMonth.AddDays(1);
+                }
+                startOfMonth = startOfMonth.AddDays((holiday.OccurenceInMonth - 1) * 7);
+                
+                // todo: big wide open hole, this month might not have this day! we need an optional return type
+                return startOfMonth;
             }
             
             throw new NotImplementedException("Unhandled HolidayType enumeration value!");
