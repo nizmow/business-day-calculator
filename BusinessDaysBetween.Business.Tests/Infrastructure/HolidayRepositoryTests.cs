@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessDaysBetween.Business.Infrastructure;
 using BusinessDaysBetween.Business.Tests.TestHelpers;
 using BusinessDaysBetween.Business.ValueObjects;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace BusinessDaysBetween.Business.Tests.Infrastructure
@@ -20,7 +21,7 @@ namespace BusinessDaysBetween.Business.Tests.Infrastructure
             {
                 { "holidays.json", new MockFileData(rawJson) },
             });
-            var sut = new HolidayRepository(fileSystem);
+            var sut = new HolidayRepository(fileSystem, NullLogger<HolidayRepository>.Instance);
 
             // act
             var result = (await sut.LoadHolidays()).ToList();

@@ -6,29 +6,50 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BusinessDaysBetween.Business.ValueObjects;
+using Microsoft.Extensions.Logging;
 
 namespace BusinessDaysBetween.Business.Infrastructure
 {
     public class HolidayRepository : IHolidayRepository
     {
         private readonly IFileSystem _fileSystem;
+        private readonly ILogger<HolidayRepository> _logger;
 
-        public HolidayRepository(IFileSystem fileSystem)
+        public HolidayRepository(IFileSystem fileSystem, ILogger<HolidayRepository> logger)
         {
             _fileSystem = fileSystem;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<Holiday>> LoadHolidays()
         {
-            var holidaysRaw = await _fileSystem.File.ReadAllTextAsync("holidays.json");
+            string holidaysRaw;
+            try
+            {
+                holidaysRaw = await _fileSystem.File.ReadAllTextAsync("holidays.json");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to load holiday data!");
+                return Enumerable.Empty<Holiday>();
+            }
+            
             var options = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             options.Converters.Add(new JsonStringEnumConverter());
             options.Converters.Add(new DateTimeConverterUsingDateTimeParse());
-            var holidays = JsonSerializer.Deserialize<Holiday[]>(holidaysRaw, options);
-            return holidays.AsEnumerable();
+            try
+            {
+                var holidays = JsonSerializer.Deserialize<Holiday[]>(holidaysRaw, options);
+                return holidays.AsEnumerable();
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, "Failed to deserialise holiday data!");
+                return Enumerable.Empty<Holiday>();
+            }
         }
 
         /// <summary>

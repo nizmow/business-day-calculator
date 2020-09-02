@@ -4,7 +4,6 @@ using BusinessDaysBetween.Business.Commands;
 using BusinessDaysBetween.Business.Infrastructure;
 using BusinessDaysBetween.Business.Services;
 using MediatR;
-using MediatR.Pipeline;
 
 namespace BusinessDaysBetween.Business.Application
 {
