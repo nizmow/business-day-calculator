@@ -16,6 +16,8 @@ namespace BusinessDaysBetween.Business.Tests.Services
         [InlineData("2020-09-01", "2020-09-08", 4)] // crosses single weekend, less than a full week
         [InlineData("2020-09-01", "2020-09-29", 19)] // crosses several weekends
         [InlineData("2020-03-20", "2020-03-25", 2)] // will later be a holiday test
+        [InlineData("2020-03-16", "2020-03-24", 5)]
+        [InlineData("2022-03-14", "2029-03-15", 1827)]
         public void CalculateBusinessDaysBetween_ReturnsExpected(string startDateRaw, string endDateRaw,
             int expected)
         {
@@ -127,24 +129,26 @@ namespace BusinessDaysBetween.Business.Tests.Services
             Assert.Equal(new DateTime(2020, 9, 8), result.date);
         }
 
-        [Fact]
-        public void GetHolidayDateForYear_ReturnsNotPresent_ForHolidayTypeParticularDayOfMonth_OnYearItDoesntOccur()
+        [Theory]
+        [InlineData(2019, false)]
+        [InlineData(2020, true)]
+        public void GetHolidayDateForYear_ReturnsNotPresent_ForHolidayTypeParticularDayOfMonth_OnYearItDoesntOccur(int year, bool expected)
         {
             // arrange
             var holiday = new Holiday
             {
                 Type = HolidayType.ParticularDayOfMonth,
-                ApplicableDay = DayOfWeek.Friday,
+                ApplicableDay = DayOfWeek.Saturday,
                 ApplicableMonth = MonthOfYear.February,
                 OccurenceInMonth = 5,
             };
             var sut = new BusinessDayCalculatorService();
             
             // act
-            var result = sut.GetHolidayDateForYear(holiday, 2020);
+            var result = sut.GetHolidayDateForYear(holiday, year);
             
             // assert
-            Assert.False(result.present);
+            Assert.Equal(expected, result.present);
         }
         
         [Fact]
