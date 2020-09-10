@@ -2,6 +2,9 @@
 
 namespace BusinessDaysBetween.Business.ValueObjects
 {
+    /// <summary>
+    /// Holiday that falls on a particular day of the month, eg: the second Tuesday of November.
+    /// </summary>
     public class DayOfMonthHoliday : IHoliday
     {
         public DayOfMonthHoliday(MonthOfYear applicableMonth, DayOfWeek applicableDay, int occurenceInMonth)
@@ -11,10 +14,19 @@ namespace BusinessDaysBetween.Business.ValueObjects
             OccurenceInMonth = occurenceInMonth;
         }
 
+        /// <summary>
+        /// The month this holiday falls on.
+        /// </summary>
         public MonthOfYear ApplicableMonth { get; }
         
+        /// <summary>
+        /// The day this holiday falls on.
+        /// </summary>
         public DayOfWeek ApplicableDay { get; }
         
+        /// <summary>
+        /// The occurence in the month, eg: 2 for second Tuesday.
+        /// </summary>
         public int OccurenceInMonth { get; }
         
         public (bool present, DateTime date) GetDateForYear(int year)

@@ -3,6 +3,10 @@ using BusinessDaysBetween.Business.Extensions;
 
 namespace BusinessDaysBetween.Business.ValueObjects
 {
+    /// <summary>
+    /// A fixed holiday that always occurs on a certain date, and may roll forward to the next Monday if that date is
+    /// a weekend.
+    /// </summary>
     public class FixedHoliday : IHoliday
     {
         public FixedHoliday(bool rollsToNextMonday, DateTime date)
@@ -11,8 +15,14 @@ namespace BusinessDaysBetween.Business.ValueObjects
             Date = date;
         }
 
+        /// <summary>
+        /// Date the holiday occurs on.
+        /// </summary>
         public DateTime Date { get; }
         
+        /// <summary>
+        /// True if this holiday should occur on the following Monday should it fall on a weekend.
+        /// </summary>
         public bool RollsToNextMonday { get; }
         
         public (bool present, DateTime date) GetDateForYear(int year)

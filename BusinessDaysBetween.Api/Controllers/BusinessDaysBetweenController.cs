@@ -21,7 +21,7 @@ namespace BusinessDaysBetween.Api.Controllers
         public async Task<ActionResult<CalculateBusinessDaysBetweenResponse>> CalculateBusinessDaysBetween(
             [FromBody] CalculateBusinessDaysBetweenRequest request)
         {
-            var days = await _mediator.Send(new CalculateBusinessDayCommand
+            var days = await _mediator.Send(new CalculateBusinessDaysCommand
             {
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,

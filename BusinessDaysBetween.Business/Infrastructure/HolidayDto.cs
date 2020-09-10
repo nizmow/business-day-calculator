@@ -3,6 +3,9 @@ using BusinessDaysBetween.Business.ValueObjects;
 
 namespace BusinessDaysBetween.Business.Infrastructure
 {
+    /// <summary>
+    /// Raw DTO for pulling data out of our JSON configuration.
+    /// </summary>
     public struct HolidayDto
     {
         /// <summary>

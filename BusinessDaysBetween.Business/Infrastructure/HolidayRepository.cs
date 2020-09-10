@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using BusinessDaysBetween.Business.ValueObjects;
-using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 
 namespace BusinessDaysBetween.Business.Infrastructure

@@ -9,8 +9,8 @@
   },
   {
     "type": "ParticularDayOfMonth",
-    "monthOfYear": "May",
-    "dayOfMonth": "Tuesday",
+    "applicableMonth": "May",
+    "applicableDay": "Tuesday",
     "occurenceInMonth": 2
   }
 ]

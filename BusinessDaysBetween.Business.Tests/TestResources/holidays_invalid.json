@@ -9,7 +9,7 @@
   },
   {
     "type": "ParticularDayOfMonth",
-    "applicableMonth": "May",
+    "date": "2020-1-29",
     "applicableDay": "Tuesday",
     "occurenceInMonth": 2
   }

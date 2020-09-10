@@ -1,5 +1,4 @@
-﻿using BusinessDaysBetween.Business.ValueObjects;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace BusinessDaysBetween.Business.Infrastructure
 {

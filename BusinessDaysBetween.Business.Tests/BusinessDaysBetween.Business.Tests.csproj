@@ -22,6 +22,8 @@
       <EmbeddedResource Include="TestResources\holidays_valid.json" />
       <None Remove="TestResources\holidays_broken.json" />
       <EmbeddedResource Include="TestResources\holidays_broken.json" />
+      <None Remove="TestResources\holidays_invalid.json" />
+      <EmbeddedResource Include="TestResources\holidays_invalid.json" />
     </ItemGroup>
 
 </Project>

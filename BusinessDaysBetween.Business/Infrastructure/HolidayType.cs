@@ -1,4 +1,4 @@
-﻿namespace BusinessDaysBetween.Business.ValueObjects
+﻿namespace BusinessDaysBetween.Business.Infrastructure
 {
     public enum HolidayType
     {

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BusinessDaysBetween.Business.Application
 {
-    public class CalculateBusinessDayHandler : IRequestHandler<CalculateBusinessDayCommand, int>
+    public class CalculateBusinessDayHandler : IRequestHandler<CalculateBusinessDaysCommand, int>
     {
         private readonly IBusinessDayCalculatorService _businessDayCalculatorService;
         private readonly IHolidayRepository _holidayRepository;
@@ -24,7 +24,7 @@ namespace BusinessDaysBetween.Business.Application
             _holidayFactory = holidayFactory;
         }
 
-        public async Task<int> Handle(CalculateBusinessDayCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CalculateBusinessDaysCommand request, CancellationToken cancellationToken)
         {
             var holidayDtos = await _holidayRepository.LoadHolidays();
             var holidays = holidayDtos.Select(_holidayFactory.CreateHoliday);

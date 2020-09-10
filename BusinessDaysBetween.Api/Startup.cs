@@ -28,7 +28,7 @@ namespace BusinessDaysBetween.Api
 
             // mediatr is probably overkill here, but I like the separation between API and business logic that it 
             // gives us, and avoids unnecessary DI mess into our controllers, less coupling
-            services.AddMediatR(typeof(CalculateBusinessDayCommand));
+            services.AddMediatR(typeof(CalculateBusinessDaysCommand));
 
             services.AddSwaggerGen();
             
