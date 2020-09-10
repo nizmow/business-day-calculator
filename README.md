@@ -2,6 +2,10 @@
 
 This project is an extremely useful business day calculator, that calculates the number of business days between two dates, EXCLUDING those two dates. It even takes into account public holidays! Right now you must enter all your holidays by editing a JSON file.
 
+### Update 10/09/2020
+
+I had some time so I fixed up the thing that bothered me the most, the data loading, validation and holiday entities. The JSON format is broken slightly, though I tried to keep it mostly the same, the naming wasn't that sane.
+
 ## Running the project
 
 You must have .NET Core SDK 3.1.400 or higher installed. Load the solution into Visual Studio and click the "Run" button, which should present you with the Swagger page. If not, navigate to http://localhost:5000/swagger. Enter in your desired dates using the Swagger interface and submit the request.
@@ -40,7 +44,7 @@ If things start getting bigger, this could be split into multiple projects.
 I time capped myself at around 4-5 hours, but there's more work to do.
 
 * Full integration tests over the web API.
-* The `Holiday` class needs a lot of work. If we're reading from an external resource it'd be nicer to use a DTO of some sort, with a 'real' business object (or two) for validation, but this seemed like too much boilerplate (and too much time).
+* ~~The `Holiday` class needs a lot of work. If we're reading from an external resource it'd be nicer to use a DTO of some sort, with a 'real' business object (or two) for validation, but this seemed like too much boilerplate (and too much time).~~
 * I'd like to make things immutable where possible, but for now I didn't want to fight with ASP.NET model binding and JSON deserialisation to make it happen in a tidy way. Also related to the above point.
 * Integration with some kind of free public holidays API or data source would make this much more useful.
-* Validation, better exception handling, friendlier errors.
+* ~~Validation,~~ Better exception handling, friendlier errors.

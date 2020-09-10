@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using BusinessDaysBetween.Business.Commands;
 using BusinessDaysBetween.Business.Infrastructure;
@@ -11,16 +12,22 @@ namespace BusinessDaysBetween.Business.Application
     {
         private readonly IBusinessDayCalculatorService _businessDayCalculatorService;
         private readonly IHolidayRepository _holidayRepository;
+        private readonly IHolidayFactory _holidayFactory;
 
-        public CalculateBusinessDayHandler(IBusinessDayCalculatorService businessDayCalculatorService, IHolidayRepository holidayRepository)
+        public CalculateBusinessDayHandler(
+            IBusinessDayCalculatorService businessDayCalculatorService,
+            IHolidayRepository holidayRepository,
+            IHolidayFactory holidayFactory)
         {
             _businessDayCalculatorService = businessDayCalculatorService;
             _holidayRepository = holidayRepository;
+            _holidayFactory = holidayFactory;
         }
 
         public async Task<int> Handle(CalculateBusinessDayCommand request, CancellationToken cancellationToken)
         {
-            var holidays = await _holidayRepository.LoadHolidays();
+            var holidayDtos = await _holidayRepository.LoadHolidays();
+            var holidays = holidayDtos.Select(_holidayFactory.CreateHoliday);
             var result = _businessDayCalculatorService.CalculateBusinessDaysBetween(request.StartDate, request.EndDate, holidays);
             return result;
         }

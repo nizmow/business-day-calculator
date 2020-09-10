@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BusinessDaysBetween.Business.ValueObjects;
+using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 
 namespace BusinessDaysBetween.Business.Infrastructure
@@ -21,7 +22,7 @@ namespace BusinessDaysBetween.Business.Infrastructure
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Holiday>> LoadHolidays()
+        public async Task<IEnumerable<HolidayDto>> LoadHolidays()
         {
             string holidaysRaw;
             try
@@ -31,7 +32,7 @@ namespace BusinessDaysBetween.Business.Infrastructure
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to load holiday data!");
-                return Enumerable.Empty<Holiday>();
+                return Enumerable.Empty<HolidayDto>();
             }
             
             var options = new JsonSerializerOptions
@@ -40,16 +41,34 @@ namespace BusinessDaysBetween.Business.Infrastructure
             };
             options.Converters.Add(new JsonStringEnumConverter());
             options.Converters.Add(new DateTimeConverterUsingDateTimeParse());
+
+            List<HolidayDto> holidayDtos;
             try
             {
-                var holidays = JsonSerializer.Deserialize<Holiday[]>(holidaysRaw, options);
-                return holidays.AsEnumerable();
+                holidayDtos = JsonSerializer.Deserialize<List<HolidayDto>>(holidaysRaw, options);
             }
             catch(Exception e)
             {
                 _logger.LogError(e, "Failed to deserialise holiday data!");
-                return Enumerable.Empty<Holiday>();
+                return Enumerable.Empty<HolidayDto>();
             }
+            
+            var validator = new HolidayDtoValidator();
+            
+            // ensure we call validate only once per DTO by connecting up object and validation result
+            var validationResults = holidayDtos.Select(h => new {Dto = h, ValidationResult = validator.Validate(h)}).ToList();
+            
+            // report errors
+            foreach (var failure in validationResults.Select((v, i) => new { Value = v.ValidationResult, Index = i}))
+            {
+                if (!failure.Value.IsValid)
+                {
+                    _logger.LogError($"Validation failed for holiday at index {failure.Index}: {string.Join(',', failure.Value.Errors)}");
+                }
+            }
+
+            // return only validated DTOs
+            return validationResults.Where(v => v.ValidationResult.IsValid).Select(v => v.Dto);
         }
 
         /// <summary>

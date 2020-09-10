@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="9.2.0" />
       <PackageReference Include="MediatR" Version="8.1.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.7" />
       <PackageReference Include="System.IO.Abstractions" Version="12.1.1" />

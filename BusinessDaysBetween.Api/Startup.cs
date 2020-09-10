@@ -1,4 +1,5 @@
 using System.IO.Abstractions;
+using BusinessDaysBetween.Business.Application;
 using BusinessDaysBetween.Business.Commands;
 using BusinessDaysBetween.Business.Infrastructure;
 using BusinessDaysBetween.Business.Services;
@@ -37,6 +38,7 @@ namespace BusinessDaysBetween.Api
             // add business logic classes, boilerplate could be isolated in a bigger project for testing?
             services.AddSingleton<IBusinessDayCalculatorService, BusinessDayCalculatorService>();
             services.AddTransient<IHolidayRepository, HolidayRepository>();
+            services.AddSingleton<IHolidayFactory, HolidayFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

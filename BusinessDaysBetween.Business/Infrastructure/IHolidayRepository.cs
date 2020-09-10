@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using BusinessDaysBetween.Business.ValueObjects;
 
 namespace BusinessDaysBetween.Business.Infrastructure
 {
@@ -13,6 +12,6 @@ namespace BusinessDaysBetween.Business.Infrastructure
         /// Load holidays from whatever data source.
         /// </summary>
         /// <returns>List of holidays</returns>
-        Task<IEnumerable<Holiday>> LoadHolidays();
+        Task<IEnumerable<HolidayDto>> LoadHolidays();
     }
 }
