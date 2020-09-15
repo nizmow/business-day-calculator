@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessDaysBetween.Business.Infrastructure;
 using BusinessDaysBetween.Business.Tests.TestHelpers;
-using BusinessDaysBetween.Business.ValueObjects;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 

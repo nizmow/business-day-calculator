@@ -18,6 +18,7 @@ namespace BusinessDaysBetween.Business.Tests.Services
         [InlineData("2020-03-20", "2020-03-25", 2)] // will later be a holiday test
         [InlineData("2020-03-16", "2020-03-24", 5)]
         [InlineData("2022-03-14", "2029-03-15", 1827)]
+        [InlineData("2020-01-29", "2020-01-31", 1)]
         public void CalculateBusinessDaysBetween_ReturnsExpected(string startDateRaw, string endDateRaw,
             int expected)
         {

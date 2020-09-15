@@ -12,12 +12,12 @@ namespace BusinessDaysBetween.Business.Services
     public class BusinessDayCalculatorService : IBusinessDayCalculatorService
     {
         /// <summary>
-        /// This is the high speed version. It doesn't work.
+        /// Calculate business days between two dates, excluding the dates!
         /// </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="holidays"></param>
-        /// <returns></returns>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
+        /// <param name="holidays">Any holidays that may or may not occur</param>
+        /// <returns>Number of days between start and end date, excluding</returns>
         public int CalculateBusinessDaysBetween(DateTime startDate, DateTime endDate,
             IEnumerable<IHoliday> holidays = null)
         {
@@ -29,7 +29,7 @@ namespace BusinessDaysBetween.Business.Services
             endDate = endDate.AddDays(-1);
 
             // graciously deal with some edge cases
-            if (startDate > endDate || startDate == endDate)
+            if (startDate > endDate)
             {
                 return 0;
             }
